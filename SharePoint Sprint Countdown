@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Countdown Timer</title>
+    <script>
+        const sprintDuration = 14 * 24 * 60 * 60 * 1000; // 14 days in milliseconds
+
+        function getNextSprintDate() {
+            const now = new Date();
+            const sprintStartDate = new Date("2024-09-09"); // Set your sprint start date
+            const timeElapsed = now - sprintStartDate;
+            const timeSinceLastSprint = timeElapsed % sprintDuration;
+            const timeUntilNextSprint = sprintDuration - timeSinceLastSprint;
+            return new Date(now.getTime() + timeUntilNextSprint);
+        }
+
+        function updateCountdown() {
+            const nextSprintDate = getNextSprintDate();
+            const now = new Date();
+            const timeRemaining = nextSprintDate - now;
+
+            const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+            document.getElementById("countdown").innerHTML = 
+              days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+
+            setTimeout(updateCountdown, 1000);
+        }
+
+        window.onload = updateCountdown;
+    </script>
+</head>
+<body>
+    <div id="countdown" style="font-size: 20px; font-weight: bold;"></div>
+</body>
+</html>
